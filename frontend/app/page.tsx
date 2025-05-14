@@ -2,6 +2,7 @@ import styles from './page.module.css'
 import EditSVG from '@/assets/edit.svg'
 import Menhera from '@/assets/menhera.png'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
 	return (
@@ -20,6 +21,7 @@ export default function Home() {
 					width={200}
 					height={200}
 				/>
+				<Link href="/chat/123">Teste</Link>
 				<div className={styles.note}>
 					<EditSVG />
 					Get started by editting frontend/app/page.tsx
