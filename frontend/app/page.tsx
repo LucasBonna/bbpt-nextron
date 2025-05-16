@@ -3,6 +3,7 @@ import EditSVG from '@/assets/edit.svg'
 import Menhera from '@/assets/menhera.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Button } from './components/ui/button'
 
 export default function Home() {
 	return (
@@ -22,6 +23,7 @@ export default function Home() {
 					height={200}
 				/>
 				<Link className='text-3xl font-bold underline' href="/chat/123">Teste</Link>
+				<Button>Test Button</Button>
 				<div className={styles.note}>
 					<EditSVG />
 					Get started by editting frontend/app/page.tsx
