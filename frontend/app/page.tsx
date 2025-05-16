@@ -21,7 +21,7 @@ export default function Home() {
 					width={200}
 					height={200}
 				/>
-				<Link href="/chat/123">Teste</Link>
+				<Link className='text-3xl font-bold underline' href="/chat/123">Teste</Link>
 				<div className={styles.note}>
 					<EditSVG />
 					Get started by editting frontend/app/page.tsx
