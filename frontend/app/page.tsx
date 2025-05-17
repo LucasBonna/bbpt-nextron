@@ -3,7 +3,8 @@ import EditSVG from '@/assets/edit.svg'
 import Menhera from '@/assets/menhera.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button } from './components/ui/button'
+import SignInSocial from '@/components/(auth)/sign-in-social'
+import { v4 as uuid } from 'uuid'
 
 export default function Home() {
 	return (
@@ -22,8 +23,8 @@ export default function Home() {
 					width={200}
 					height={200}
 				/>
-				<Link className='text-3xl font-bold underline' href="/chat/123">Teste</Link>
-				<Button>Test Button</Button>
+				<Link className='text-3xl font-bold underline' href={`/chat/${uuid()}`}>Teste</Link>
+				<SignInSocial provider='github'>Log In</SignInSocial>
 				<div className={styles.note}>
 					<EditSVG />
 					Get started by editting frontend/app/page.tsx

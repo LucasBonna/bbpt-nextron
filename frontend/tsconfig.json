@@ -20,10 +20,10 @@
 				"name": "next"
 			}
 		],
-		"baseUrl": "./app",
+		"baseUrl": "./",
 		"paths": {
 			"@/*": ["./*"],
-			"@/components/*": ["./components/*"]
+			"@/components/*": ["components/*"]
 		},
 	},
 	"include": [
