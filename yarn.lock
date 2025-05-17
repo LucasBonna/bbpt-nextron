@@ -12432,7 +12432,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nextjs-electron-boilerplate@workspace:."
   dependencies:
-    "@better-fetch/fetch": "npm:^1.1.18"
     "@chromatic-com/storybook": "npm:1"
     "@prisma/client": "npm:^6.8.2"
     "@radix-ui/react-slot": "npm:^1.2.2"

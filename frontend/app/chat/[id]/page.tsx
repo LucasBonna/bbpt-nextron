@@ -1,15 +1,136 @@
 "use client"
 
+import type React from "react"
+
 import { useParams } from "next/navigation"
+import { useEffect, useState, useRef } from "react"
+import { getChatWithInteractions, sendMessage } from "@/actions/chat"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Loader2, Send } from 'lucide-react'
+
+interface Interaction {
+  id: number
+  prompt: string
+  response: string | null
+  createdAt: Date
+}
+
+interface Chat {
+  id: string
+  name: string | null
+  interactions: Interaction[]
+}
 
 export default function ChatPage() {
-	const params = useParams<{ id: string }>()
+  const params = useParams<{ id: string }>()
+  const [chat, setChat] = useState<Chat | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [sending, setSending] = useState(false)
+  const [input, setInput] = useState("")
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const fetchChat = async () => {
+      setLoading(true)
+      const chatData = await getChatWithInteractions(params.id)
+      setChat(chatData)
+      setLoading(false)
+    }
+
+    fetchChat()
+  }, [params.id])
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [chat?.interactions])
+
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!input.trim() || sending) return
+
+    setSending(true)
+
+    const optimisticChat = {
+      ...chat,
+      interactions: [
+        ...(chat?.interactions || []),
+        { id: Date.now(), prompt: input, response: null, createdAt: new Date() },
+      ],
+    }
+    setChat(optimisticChat as Chat)
+
+    setInput("")
+
+    await sendMessage(params.id, input)
 
 
-	return (
-		<div>
-			<h1>Teste</h1>
-			<a>ChatId = {params.id}</a>
-		</div>
-	)
+    const updatedChat = await getChatWithInteractions(params.id)
+    setChat(updatedChat)
+
+    setSending(false)
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col h-screen max-h-screen p-4">
+      <Card className="flex flex-col h-full">
+        <CardHeader className="px-6 py-4 border-b">
+          <CardTitle>Chat {chat?.name || `#${params.id.substring(0, 8)}`}</CardTitle>
+        </CardHeader>
+
+        <CardContent className="flex-1 overflow-y-auto p-6 space-y-4">
+          {chat?.interactions && chat.interactions.length > 0 ? (
+            chat.interactions.map((interaction) => (
+              <div key={interaction.id} className="space-y-4">
+                <div className="flex items-start">
+                  <div className="bg-blue-100 rounded-lg p-3 max-w-[80%]">
+                    <p className="text-gray-800">{interaction.prompt}</p>
+                  </div>
+                </div>
+
+                {interaction.response && (
+                  <div className="flex items-start justify-end">
+                    <div className="bg-gray-100 rounded-lg p-3 max-w-[80%]">
+                      <p className="text-gray-800">{interaction.response}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <div className="text-center text-gray-500 my-8">
+              <p>No messages yet. Start a conversation!</p>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </CardContent>
+
+        <CardFooter className="p-4 border-t">
+          <form onSubmit={handleSendMessage} className="flex w-full space-x-2">
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-grow"
+              disabled={sending}
+            />
+            <Button type="submit" disabled={sending || !input.trim()}>
+              {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+            </Button>
+          </form>
+        </CardFooter>
+      </Card>
+    </div>
+  )
 }

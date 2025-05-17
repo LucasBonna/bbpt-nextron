@@ -8,6 +8,7 @@ frontend/build
 frontend/.next
 frontend/next-env.d.ts
 generated/prisma/
+prisma/sqlite.db
 
 # Logs
 logs
