@@ -72,7 +72,7 @@
 		"eslint-plugin-storybook": "^0.6.15",
 		"prettier": "^3.2.5",
 		"prisma": "6.8.2",
-		"storybook": "^8.1.1",
+		"storybook": "^8.6.14",
 		"tsc-alias": "^1.8.8",
 		"tsconfig-paths-webpack-plugin": "^4.1.0",
 		"tw-animate-css": "^1.2.9",
