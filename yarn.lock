@@ -9541,6 +9541,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"get-tsconfig@npm:^4.10.0":
+  version: 4.10.0
+  resolution: "get-tsconfig@npm:4.10.0"
+  dependencies:
+    resolve-pkg-maps: "npm:^1.0.0"
+  checksum: 10c0/c9b5572c5118923c491c04285c73bd55b19e214992af957c502a3be0fc0043bb421386ffd45ca3433c0a7fba81221ca300479e8393960acf15d0ed4563f38a86
+  languageName: node
+  linkType: hard
+
 "get-tsconfig@npm:^4.5.0":
   version: 4.6.0
   resolution: "get-tsconfig@npm:4.6.0"
@@ -12475,7 +12484,7 @@ __metadata:
     storybook: "npm:^8.1.1"
     tailwind-merge: "npm:^3.3.0"
     tailwindcss: "npm:^4.1.7"
-    tsc-alias: "npm:^1.8.8"
+    tsc-alias: "npm:^1.8.16"
     tsconfig-paths-webpack-plugin: "npm:^4.1.0"
     tw-animate-css: "npm:^1.2.9"
     typescript: "npm:^5.4.5"
@@ -15649,19 +15658,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsc-alias@npm:^1.8.8":
-  version: 1.8.8
-  resolution: "tsc-alias@npm:1.8.8"
+"tsc-alias@npm:^1.8.16":
+  version: 1.8.16
+  resolution: "tsc-alias@npm:1.8.16"
   dependencies:
     chokidar: "npm:^3.5.3"
     commander: "npm:^9.0.0"
+    get-tsconfig: "npm:^4.10.0"
     globby: "npm:^11.0.4"
     mylas: "npm:^2.1.9"
     normalize-path: "npm:^3.0.0"
     plimit-lit: "npm:^1.2.6"
   bin:
     tsc-alias: dist/bin/index.js
-  checksum: 10c0/02d0e3309f5b4d5c2dfc09ddb1192faa75108025e37d51f85dd7cfaab1ebe69cd50a6ed17d2e5d692ddc406455c1b17dfc056ca6ac56f587cba7b63993de251c
+  checksum: 10c0/5775a6044bd5b6e94efdf1902493aa959270def65e7915edad78023fac7f42f25724842bd98f38a5d00e01f7395dca102a6615933bec3bdd887617d00419f66a
   languageName: node
   linkType: hard
 
