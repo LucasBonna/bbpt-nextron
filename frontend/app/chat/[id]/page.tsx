@@ -92,14 +92,14 @@ export default function ChatPage() {
           {chat?.interactions && chat.interactions.length > 0 ? (
             chat.interactions.map((interaction) => (
               <div key={interaction.id} className="space-y-4">
-                <div className="flex items-start">
+                <div className="flex items-start justify-end">
                   <div className="bg-blue-100 rounded-lg p-3 max-w-[80%]">
                     <p className="text-gray-800">{interaction.prompt}</p>
                   </div>
                 </div>
 
                 {interaction.response && (
-                  <div className="flex items-start justify-end">
+                  <div className="flex items-start justify-start">
                     <div className="bg-gray-100 rounded-lg p-3 max-w-[80%]">
                       <p className="text-gray-800">{interaction.response}</p>
                     </div>
