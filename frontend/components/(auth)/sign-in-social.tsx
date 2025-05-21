@@ -5,15 +5,17 @@ import { Button } from "../ui/button";
 import { signIn } from "@/lib/auth-client";
 import { v4 as uuid } from "uuid";
 
+type SignInSocialProps = {
+    provider: "github" | "microsoft";
+    children: React.ReactNode;
+    className?: string;
+}
+
 export default function SignInSocial({
     provider,
     children,
-}:  {
-    provider:
-        | "github"
-        | "microsoft";
-    children: React.ReactNode;
-}) {
+    className,
+}:  SignInSocialProps) {
     return (
         <Button
             onClick={async () => {
@@ -23,7 +25,7 @@ export default function SignInSocial({
                 });
             }}
             type="button"
-            variant="outline"
+            className={className}
         >
             {children}
         </Button>
