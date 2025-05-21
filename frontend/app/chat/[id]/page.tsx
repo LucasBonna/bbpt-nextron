@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Loader2, Send } from 'lucide-react'
+import { MessageContent } from "@/components/(chat)/message-content" 
 
 interface Interaction {
   id: number
@@ -30,6 +31,7 @@ export default function ChatPage() {
   const [sending, setSending] = useState(false)
   const [input, setInput] = useState("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const fetchChat = async () => {
@@ -53,24 +55,30 @@ export default function ChatPage() {
 
     setSending(true)
 
-    const optimisticChat = {
-      ...chat,
-      interactions: [
-        ...(chat?.interactions || []),
-        { id: Date.now(), prompt: input, response: null, createdAt: new Date() },
-      ],
+    try {
+      const optimisticChat = {
+        ...chat,
+        interactions: [
+          ...(chat?.interactions || []),
+          { id: Date.now(), prompt: input, response: null, createdAt: new Date() },
+        ],
+      }
+      setChat(optimisticChat as Chat)
+      
+      const currentInput = input
+      setInput("")
+      
+      await sendMessage(params.id, currentInput)
+      
+      const updatedChat = await getChatWithInteractions(params.id)
+      setChat(updatedChat)
+      
+      inputRef.current?.focus()
+    } catch (error) {
+      console.error("Error sending message:", error)
+    } finally {
+      setSending(false)
     }
-    setChat(optimisticChat as Chat)
-
-    setInput("")
-
-    await sendMessage(params.id, input)
-
-
-    const updatedChat = await getChatWithInteractions(params.id)
-    setChat(updatedChat)
-
-    setSending(false)
   }
 
   if (loading) {
@@ -92,16 +100,22 @@ export default function ChatPage() {
           {chat?.interactions && chat.interactions.length > 0 ? (
             chat.interactions.map((interaction) => (
               <div key={interaction.id} className="space-y-4">
-                <div className="flex items-start">
+                <div className="flex items-end justify-end">
                   <div className="bg-blue-100 rounded-lg p-3 max-w-[80%]">
                     <p className="text-gray-800">{interaction.prompt}</p>
                   </div>
                 </div>
 
-                {interaction.response && (
-                  <div className="flex items-start justify-end">
+                {interaction.response ? (
+                  <div className="flex items-start justify-start">
                     <div className="bg-gray-100 rounded-lg p-3 max-w-[80%]">
-                      <p className="text-gray-800">{interaction.response}</p>
+                      <MessageContent content={interaction.response} />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-start justify-end">
+                    <div className="bg-gray-100 rounded-lg p-3">
+                      <Loader2 className="h-4 w-4 animate-spin text-gray-500" />
                     </div>
                   </div>
                 )}
@@ -119,6 +133,7 @@ export default function ChatPage() {
         <CardFooter className="p-4 border-t">
           <form onSubmit={handleSendMessage} className="flex w-full space-x-2">
             <Input
+              ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your message..."
@@ -126,7 +141,7 @@ export default function ChatPage() {
               disabled={sending}
             />
             <Button type="submit" disabled={sending || !input.trim()}>
-              {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              {sending ? <Loader2 className="h-4 w-4 animate-spin flex items-start justify-end" /> : <Send className="h-4 w-4" />}
             </Button>
           </form>
         </CardFooter>
