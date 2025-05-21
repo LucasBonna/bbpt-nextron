@@ -28,6 +28,8 @@
 	},
 	"packageManager": "yarn@4.2.2",
 	"dependencies": {
+		"@anthropic-ai/sdk": "^0.51.0",
+		"@modelcontextprotocol/sdk": "^1.11.4",
 		"@prisma/client": "^6.8.2",
 		"@radix-ui/react-slot": "^1.2.2",
 		"@tailwindcss/postcss": "^4.1.7",

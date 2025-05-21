@@ -2,6 +2,9 @@
 
 import { revalidatePath } from "next/cache"
 import prisma from "../../prisma/database"
+import { getMCPClient } from "@/lib/mcpClient"
+import { MessageParam } from "@anthropic-ai/sdk/resources"
+// Removed unused import
 
 export async function getChatWithInteractions(chatId: string) {
   try {
@@ -17,10 +20,12 @@ export async function getChatWithInteractions(chatId: string) {
   }
 }
 
-export async function createChat() {
+export async function createChat(id: string) {
   try {
     const chat = await prisma.chat.create({
-      data: {},
+      data: {
+        id: id,
+      },
     })
 
     return chat
@@ -32,37 +37,58 @@ export async function createChat() {
 
 export async function sendMessage(chatId: string, prompt: string) {
   try {
+    const mcpClient = getMCPClient();
+
     let chat = await prisma.chat.findUnique({
       where: { id: chatId },
-    })
+      include: {
+        interactions: {
+          orderBy: { createdAt: 'asc'},
+          take: 10,
+        }
+      },
+    });
 
     if (!chat) {
-      chat = await prisma.chat.create({
-        data: { id: chatId },
-      })
+      chat = { ...(await createChat(chatId)), interactions: [] };
     }
 
-    const mockedResponse = "Mocked response from the server";
+    const chatHistory: MessageParam[] = [];
+    for (const interaction of chat.interactions) {
+      chatHistory.push({
+        role: "user",
+        content: interaction.prompt,
+      });
+
+      if (interaction.response) {
+        chatHistory.push({
+          role: "assistant",
+          content: interaction.response,
+        });
+      }
+    }
+
+    const startTime = performance.now();
+
+    const result = await mcpClient.processQuery(prompt, chatHistory);
+
+    const responseTime = (performance.now() - startTime) / 1000;
 
     const interaction = await prisma.interaction.create({
       data: {
-        chatId,
-        prompt,
-        response: mockedResponse,
+        prompt: prompt,
+        response: result.text,
+        responseTime,
+        model: "claude-3-5-sonnet-latest",
+        chatId: chatId,
       },
-    })
+    });
 
-    revalidatePath(`/chat/${chatId}`)
+    revalidatePath(`/chat/${chatId}`);
 
-    return {
-      success: true,
-      interactionId: interaction.id,
-    }
+    return interaction;
   } catch (error) {
     console.error("Error sending message:", error)
-    return {
-      success: false,
-      error: "Failed to send message",
-    }
+    throw error;
   }
 }
