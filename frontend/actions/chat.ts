@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache"
 import prisma from "../../prisma/database"
 import { getMCPClient } from "@/lib/mcpClient"
 import { MessageParam } from "@anthropic-ai/sdk/resources"
-import { create } from "domain"
+// Removed unused import
 
 export async function getChatWithInteractions(chatId: string) {
   try {
