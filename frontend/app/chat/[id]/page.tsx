@@ -101,21 +101,21 @@ export default function ChatPage() {
             chat.interactions.map((interaction) => (
               <div key={interaction.id} className="space-y-4">
                 <div className="flex items-end justify-end">
-                  <div className="bg-blue-100 rounded-lg p-3 max-w-[80%]">
-                    <p className="text-gray-800">{interaction.prompt}</p>
+                  <div className="bg-secondary rounded-lg p-3 max-w-[80%]">
+                    <p className="text-secondary-foreground">{interaction.prompt}</p>
                   </div>
                 </div>
 
                 {interaction.response ? (
                   <div className="flex items-start justify-start">
-                    <div className="bg-gray-100 rounded-lg p-3 max-w-[80%]">
+                    <div className="bg-accent rounded-lg p-3 max-w-[80%]">
                       <MessageContent content={interaction.response} />
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-start justify-end">
-                    <div className="bg-gray-100 rounded-lg p-3">
-                      <Loader2 className="h-4 w-4 animate-spin text-gray-500" />
+                  <div className="flex items-start justify-start">
+                    <div className="bg-card rounded-lg p-3">
+                      <Loader2 className="h-4 w-4 animate-spin text-card-foreground" />
                     </div>
                   </div>
                 )}

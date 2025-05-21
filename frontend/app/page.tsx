@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Logo from "@/assets/BBPT.png";
 import Image from "next/image";
 import SignInSocial from '@/components/(auth)/sign-in-social'
+import { useSession } from "@/lib/auth-client";
 
 export default function LoginForm({
   className,
@@ -17,7 +18,6 @@ export default function LoginForm({
   const fullEndText = "BBPT CHAT"
   const [EndDisplayText, setEndDisplayedText] = useState("");
   
-
 useEffect(() => {
   let index = 0;
     const interval = setInterval(() => {

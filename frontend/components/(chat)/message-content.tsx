@@ -17,14 +17,14 @@ export function MessageContent({ content }: MessageContentProps) {
     
     return (
       <div>
-        {beforeTool && <p className="mb-2">{beforeTool}</p>}
+        {beforeTool && <p className="mb-2 text-gray-100">{beforeTool}</p>}
         <div 
-          className="text-xs text-blue-600 bg-blue-50 p-2 rounded cursor-pointer my-2 border border-blue-200" 
+          className="text-xs text-card-foreground bg-card p-2 rounded cursor-pointer my-2 border border-border" 
           onClick={() => setExpanded(true)}
         >
           Tool was used to retrieve information. Click to see details.
         </div>
-        {afterTool && <p className="mt-2">{afterTool}</p>}
+        {afterTool && <p className="mt-2 text-foreground">{afterTool}</p>}
       </div>
     );
   }
@@ -37,16 +37,16 @@ export function MessageContent({ content }: MessageContentProps) {
         {parts.map((part, i) => {
           if (part.startsWith("[Tool")) {
             return (
-              <div key={i} className="bg-blue-50 p-2 my-2 rounded text-xs text-blue-600 font-mono border border-blue-200">
+              <div key={i} className="bg-card p-2 my-2 rounded text-xs text-card-foreground font-mono border border-border">
                 {part}
               </div>
             );
           }
-          return part ? <p key={i} className="my-2">{part}</p> : null;
+          return part ? <p key={i} className="my-2 text-gray-100">{part}</p> : null;
         })}
         {expanded && (
           <div 
-            className="text-xs text-blue-600 cursor-pointer mt-2 text-right" 
+            className="text-xs text-card-foreground cursor-pointer mt-2 text-right" 
             onClick={() => setExpanded(false)}
           >
             Hide tool details
@@ -56,5 +56,5 @@ export function MessageContent({ content }: MessageContentProps) {
     );
   }
   
-  return <p>{content}</p>;
+  return <p className="text-gray-100">{content}</p>;
 }
