@@ -1,24 +1,29 @@
-import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar'
-import '../globals.css'
-import { AppSidebar } from '@/components/app-sidebar'
-import { ThemeProvider } from '@/components/theme-provider'
+import {
+	SidebarProvider,
+	SidebarTrigger,
+	SidebarInset,
+} from '@/components/ui/sidebar';
+import '../globals.css';
+import { AppSidebar } from '@/components/app-sidebar';
+import { ThemeProvider } from '@/components/theme-provider';
+import { SidebarWrapper } from '@/components/sidebar-wrapper';
 
 export default function RootLayout({
 	children,
 }: {
-	children: React.ReactNode
+	children: React.ReactNode;
 }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body>
-				<ThemeProvider 
+				<ThemeProvider
 					attribute="class"
 					defaultTheme="dark"
 					enableSystem
 					disableTransitionOnChange
-					>
+				>
 					<SidebarProvider>
-						<AppSidebar />
+						<SidebarWrapper />
 						<SidebarInset>
 							<SidebarTrigger />
 							{children}
@@ -27,5 +32,5 @@ export default function RootLayout({
 				</ThemeProvider>
 			</body>
 		</html>
-	)
+	);
 }

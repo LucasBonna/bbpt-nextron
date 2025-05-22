@@ -15,6 +15,9 @@ model Chat {
   id           String        @id @default(cuid())
   name         String?
   interactions Interaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
 }
 
 model Interaction {
