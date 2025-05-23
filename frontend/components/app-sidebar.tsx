@@ -44,7 +44,7 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 	}, [chats, searchQuery]);
 
 	return (
-		<Sidebar>
+		<Sidebar collapsible='icon'>
 			<SidebarHeader>
 				<div className="flex items-center justify-between px-2 py-2">
 					<h2 className="text-lg font-semibold">BBPT Chat</h2>

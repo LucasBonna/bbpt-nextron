@@ -3,7 +3,6 @@ import type { MessageParam, Tool } from "@anthropic-ai/sdk/resources";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
 
-// Singleton pattern to maintain connection across requests
 let mcpClientInstance: MCPClient | null = null;
 
 export class MCPClient {
@@ -53,20 +52,33 @@ export class MCPClient {
     console.log("Connected to MCP server with tools:", this.tools);
   }
 
-  async processQuery(query: string, chatHistory: MessageParam[] = []) {
+  async processMessage(prompt: string, client: ClientSelected | null, chatHistory: MessageParam[] = []) {
     await this.connectToMCPServer();
+
+    const systemPrompt = `
+      Você e um assistente da empresa ByeByePaper, uma empresa de TI focada em solucoes fiscais.
+      Você deve responder as perguntas do usuario de forma clara e objetiva.
+      Você deve usar as ferramentas disponiveis para responder as perguntas do usuario.
+      Sua funcao e responder as perguntas do usuario relacionadas a como funciona o sistema de cada cliente e usar as 
+      ferramentas disponiveis para responder as perguntas do usuario.
+      O usuario pode perguntar sobre o sistema de cada cliente, sobre as ferramentas disponiveis e sobre o sistema em geral.
+
+      ${client ? `O cliente atual e o ${client.name},` : 'Nenhum cliente selecionado.'}
+      ${client ? `O clientId atual e ${client.id}` : 'Nenhum clientId disponivel.'}
+    `;
 
     const messages: MessageParam[] = [
       ...chatHistory,
       {
         role: "user",
-        content: query,
+        content: prompt,
       },
     ];
 
     const response = await this.anthropic.messages.create({
       model: "claude-3-5-sonnet-latest",
       max_tokens: 4000,
+      system: systemPrompt,
       messages,
       tools: this.tools,
     });
@@ -131,7 +143,6 @@ export class MCPClient {
   }
 }
 
-// Singleton getter
 export function getMCPClient(): MCPClient {
   if (!mcpClientInstance) {
     mcpClientInstance = new MCPClient();

@@ -4,7 +4,6 @@ import {
 	SidebarInset,
 } from '@/components/ui/sidebar';
 import '../globals.css';
-import { AppSidebar } from '@/components/app-sidebar';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SidebarWrapper } from '@/components/sidebar-wrapper';
 

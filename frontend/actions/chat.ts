@@ -53,7 +53,7 @@ export async function createChat(id: string) {
 	}
 }
 
-export async function sendMessage(chatId: string, prompt: string) {
+export async function sendMessage(chatId: string, prompt: string, client: Client | null) {
 	try {
 		const mcpClient = getMCPClient();
 
@@ -88,7 +88,7 @@ export async function sendMessage(chatId: string, prompt: string) {
 
 		const startTime = performance.now();
 
-		const result = await mcpClient.processQuery(prompt, chatHistory);
+		const result = await mcpClient.processMessage(prompt, client, chatHistory);
 
 		const responseTime = (performance.now() - startTime) / 1000;
 
