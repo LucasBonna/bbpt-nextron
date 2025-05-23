@@ -7,9 +7,9 @@ import { useEffect, useState, useRef } from "react"
 import { getChatWithInteractions, sendMessage } from "@/actions/chat"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2, Send } from 'lucide-react'
-import { MessageContent } from "@/components/(chat)/message-content" 
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Loader2, Send } from "lucide-react"
+import { MessageContent } from "@/components/(chat)/message-content"
 
 interface Interaction {
   id: number
@@ -64,15 +64,15 @@ export default function ChatPage() {
         ],
       }
       setChat(optimisticChat as Chat)
-      
+
       const currentInput = input
       setInput("")
-      
+
       await sendMessage(params.id, currentInput)
-      
+
       const updatedChat = await getChatWithInteractions(params.id)
       setChat(updatedChat)
-      
+
       inputRef.current?.focus()
     } catch (error) {
       console.error("Error sending message:", error)
@@ -90,12 +90,8 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen max-h-screen p-4">
-      <Card className="flex flex-col h-full">
-        <CardHeader className="px-6 py-4 border-b">
-          <CardTitle>Chat {chat?.name || `#${params.id.substring(0, 8)}`}</CardTitle>
-        </CardHeader>
-
+    <div className="flex flex-col h-screen max-h-screen p-2 box-border">
+      <Card className="flex flex-col h-full bg-[#282828] border border-[#282828] shadow-none">
         <CardContent className="flex-1 overflow-y-auto p-6 space-y-4">
           {chat?.interactions && chat.interactions.length > 0 ? (
             chat.interactions.map((interaction) => (
@@ -122,27 +118,37 @@ export default function ChatPage() {
               </div>
             ))
           ) : (
-            <div className="text-center text-gray-500 my-8">
-              <p>No messages yet. Start a conversation!</p>
+            <div className="text-center text-[33px] text-gray-500 my-70">
+              <p>Olá, Nome do usuário</p>
             </div>
           )}
 
           <div ref={messagesEndRef} />
         </CardContent>
 
-        <CardFooter className="p-4 border-t">
-          <form onSubmit={handleSendMessage} className="flex w-full space-x-2">
-            <Input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-grow"
-              disabled={sending}
-            />
-            <Button type="submit" disabled={sending || !input.trim()}>
-              {sending ? <Loader2 className="h-4 w-4 animate-spin flex items-start justify-end" /> : <Send className="h-4 w-4" />}
-            </Button>
+        <CardFooter className="flex items-center justify-center p-4">
+          <form onSubmit={handleSendMessage} className="w-full max-w-2xl mx-auto">
+            <div className="relative w-full">
+              <Input
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Escreva a sua mensagem..."
+                className="pr-14 h-14 border-[#8E8E8E]"
+                disabled={sending}
+              />
+              <button
+                type="submit"
+                disabled={sending || !input.trim()}
+                className="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground disabled:opacity-50"
+              >
+                {sending ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <Send className="h-5 w-5" />
+                )}
+              </button>
+            </div>
           </form>
         </CardFooter>
       </Card>
