@@ -1,6 +1,7 @@
 import { Anthropic } from "@anthropic-ai/sdk";
 import type { MessageParam, Tool } from "@anthropic-ai/sdk/resources";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { Client as ClientSelected} from "@/components/client-selector";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
 
 let mcpClientInstance: MCPClient | null = null;
@@ -52,7 +53,7 @@ export class MCPClient {
     console.log("Connected to MCP server with tools:", this.tools);
   }
 
-  async processMessage(prompt: string, client: ClientSelected | null, chatHistory: MessageParam[] = []) {
+  async processMessage(prompt: string, clientSelected: ClientSelected | null, chatHistory: MessageParam[] = []) {
     await this.connectToMCPServer();
 
     const systemPrompt = `
@@ -63,8 +64,8 @@ export class MCPClient {
       ferramentas disponiveis para responder as perguntas do usuario.
       O usuario pode perguntar sobre o sistema de cada cliente, sobre as ferramentas disponiveis e sobre o sistema em geral.
 
-      ${client ? `O cliente atual e o ${client.name},` : 'Nenhum cliente selecionado.'}
-      ${client ? `O clientId atual e ${client.id}` : 'Nenhum clientId disponivel.'}
+      ${clientSelected ? `O cliente atual e o ${clientSelected.name},` : 'Nenhum cliente selecionado.'}
+      ${clientSelected ? `O clientId atual e ${clientSelected.id}` : 'Nenhum clientId disponivel.'}
     `;
 
     const messages: MessageParam[] = [

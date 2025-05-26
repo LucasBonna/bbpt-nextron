@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import prisma from '../../prisma/database';
 import { getMCPClient } from '@/lib/mcpClient';
 import { MessageParam } from '@anthropic-ai/sdk/resources';
+import { Client } from '@/components/client-selector';
 
 export async function getBasicChatInfo() {
 	try {

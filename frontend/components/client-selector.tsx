@@ -10,7 +10,11 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { Client, useClient } from '@/context/ClientContext';
+
+export interface Client {
+	id: string;
+	name: string;
+}
 
 const clientes: Client[] = [
 	{ id: '1', name: 'Ford' },
@@ -20,8 +24,15 @@ const clientes: Client[] = [
 	{ id: '5', name: 'Volkswagen' },
 ];
 
-export function ClienteSelector() {
-	const { selectedClient, setSelectedClient } = useClient();
+export function ClienteSelector({
+	onSelectClient,
+}: { onSelectClient: (client: Client) => void }) {
+	const [selectedClient, setSelectedClient] = React.useState<Client | null>(null);
+
+	const handleSelectClient = (client: Client) => {
+		setSelectedClient(client);
+		onSelectClient(client);
+	};
 
 	return (
 		<div className="flex items-center">
@@ -49,7 +60,7 @@ export function ClienteSelector() {
 								selectedClient?.id === cliente.id &&
 									'bg-green-500/10'
 							)}
-							onClick={() => setSelectedClient(cliente)}
+							onClick={() => handleSelectClient(cliente)}
 						>
 							<span>{cliente.name}</span>
 							{selectedClient?.id === cliente.id && (

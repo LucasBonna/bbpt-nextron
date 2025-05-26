@@ -5,11 +5,11 @@ import type React from "react"
 import { useParams } from "next/navigation"
 import { useEffect, useState, useRef } from "react"
 import { getChatWithInteractions, sendMessage } from "@/actions/chat"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Loader2, Send } from "lucide-react"
 import { MessageContent } from "@/components/(chat)/message-content"
+import { Client, ClienteSelector } from "@/components/client-selector"
 
 interface Interaction {
   id: number
@@ -32,6 +32,7 @@ export default function ChatPage() {
   const [input, setInput] = useState("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null)
 
   useEffect(() => {
     const fetchChat = async () => {
@@ -68,7 +69,7 @@ export default function ChatPage() {
       const currentInput = input
       setInput("")
 
-      await sendMessage(params.id, currentInput)
+      await sendMessage(params.id, currentInput, selectedClient)
 
       const updatedChat = await getChatWithInteractions(params.id)
       setChat(updatedChat)
@@ -91,6 +92,10 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-screen max-h-screen p-2 box-border">
+      <div className="flex justify-end p-2">
+        <ClienteSelector onSelectClient={setSelectedClient} />
+      </div>
+
       <Card className="flex flex-col h-full bg-[#282828] border border-[#282828] shadow-none">
         <CardContent className="flex-1 overflow-y-auto p-6 space-y-4">
           {chat?.interactions && chat.interactions.length > 0 ? (
@@ -139,7 +144,7 @@ export default function ChatPage() {
               />
               <button
                 type="submit"
-                disabled={sending || !input.trim()}
+                disabled={sending || !selectedClient}
                 className="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground disabled:opacity-50"
               >
                 {sending ? (
