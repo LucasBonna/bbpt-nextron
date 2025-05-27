@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { MessageSquare, Plus, Search } from 'lucide-react';
+import { MessageSquare, CirclePlus, Search } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -47,23 +47,19 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 		<Sidebar collapsible='icon'>
 			<SidebarHeader>
 				<div className="flex items-center justify-between px-2 py-2">
-					<h2 className="text-lg font-semibold">BBPT Chat</h2>
-					<Button variant="ghost" size="icon" asChild>
-						<Link href="/chat/new">
-							<Plus className="h-5 w-5" />
-							<span className="sr-only">New Chat</span>
-						</Link>
-					</Button>
+					<h2 className="text-xl text-[#00BC5F] font-semibold">ByeBye
+						<span className='text-[#BABABA]'>Paper</span>
+					</h2>
 				</div>
 				<form className="px-2 pb-2">
 					<SidebarGroup className="py-0">
-						<SidebarGroupContent className="relative">
+						<SidebarGroupContent className="relative right-2.5">
 							<Label htmlFor="search" className="sr-only">
 								Search Chats
 							</Label>
 							<SidebarInput
 								id="search"
-								placeholder="Search chats..."
+								placeholder="Buscar conversas..."
 								className="pl-8"
 								value={searchQuery}
 								onChange={e => setSearchQuery(e.target.value)}
@@ -72,12 +68,21 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 						</SidebarGroupContent>
 					</SidebarGroup>
 				</form>
-				<SidebarSeparator />
 			</SidebarHeader>
 
 			<SidebarContent>
 				<SidebarGroup>
-					<SidebarGroupLabel>Recent Chats</SidebarGroupLabel>
+					<SidebarGroupContent>
+						<Button variant="ghost" size="default" asChild>
+							<Link href="/chat/new" className="-ml-2">
+								<CirclePlus className="size-6 text-[#00BC5F]" />
+								<span className="text-[#00BC5F] -ml-1">Nova conversa</span>
+							</Link>
+						</Button>
+					</SidebarGroupContent>
+					<br>
+					</br>
+					<SidebarGroupLabel>Conversas recentes</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
 							{filteredChats.length > 0 ? (
@@ -108,14 +113,6 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 			</SidebarContent>
 
 			<SidebarFooter>
-				<div className="p-2">
-					<Button className="w-full" asChild>
-						<Link href="/chat/new">
-							<Plus className="mr-2 h-4 w-4" />
-							New Chat
-						</Link>
-					</Button>
-				</div>
 			</SidebarFooter>
 		</Sidebar>
 	);
