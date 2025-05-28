@@ -10,6 +10,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Loader2, Send } from "lucide-react"
 import { MessageContent } from "@/components/(chat)/message-content"
 import { Client, ClienteSelector } from "@/components/client-selector"
+import { authClient } from "@/lib/auth-client"
 
 interface Interaction {
   id: number
@@ -33,6 +34,7 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedClient, setSelectedClient] = useState<Client | null>(null)
+  const { data: userSession, error } = authClient.useSession();
 
   useEffect(() => {
     const fetchChat = async () => {
@@ -109,7 +111,7 @@ export default function ChatPage() {
 
                 {interaction.response ? (
                   <div className="flex items-start justify-start">
-                    <div className="bg-accent rounded-lg p-3 max-w-[80%]">
+                    <div className="bg-accent rounded-lg p-3 max-w-[80%] whitespace-pre-wrap">
                       <MessageContent content={interaction.response} />
                     </div>
                   </div>
@@ -124,7 +126,7 @@ export default function ChatPage() {
             ))
           ) : (
             <div className="text-center text-[33px] text-gray-500 my-70">
-              <p>Olá, Nome do usuário</p>
+              <p>Olá, {userSession.user.name}</p>
             </div>
           )}
 

@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Button } from "../ui/button";
-import { signIn } from "@/lib/auth-client";
 import { v4 as uuid } from "uuid";
+import { authClient } from "@/lib/auth-client";
 
 type SignInSocialProps = {
     provider: "github" | "microsoft";
@@ -19,7 +19,7 @@ export default function SignInSocial({
     return (
         <Button
             onClick={async () => {
-                await signIn.social({
+                await authClient.signIn.social({
                     provider,
                     callbackURL: `/chat/${uuid()}`
                 });
