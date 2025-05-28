@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { v4 as uuid } from "uuid";
 import { authClient } from "@/lib/auth-client";
@@ -16,13 +16,20 @@ export default function SignInSocial({
     children,
     className,
 }:  SignInSocialProps) {
+    const [loading, setLoading] = useState(false);
+
     return (
         <Button
             onClick={async () => {
-                await authClient.signIn.social({
-                    provider,
-                    callbackURL: `/chat/${uuid()}`
-                });
+                try {
+                    setLoading(true)
+                    await authClient.signIn.social({
+                        provider,
+                        callbackURL: `/chat/${uuid()}`
+                    });
+                } finally {
+                    setLoading(false)
+                } 
             }}
             type="button"
             className={className}

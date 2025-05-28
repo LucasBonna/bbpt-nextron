@@ -1,6 +1,5 @@
 import {
 	SidebarProvider,
-	SidebarTrigger,
 	SidebarInset,
 } from '@/components/ui/sidebar';
 import '../globals.css';
@@ -24,7 +23,6 @@ export default function RootLayout({
 					<SidebarProvider>
 						<SidebarWrapper />
 						<SidebarInset>
-							<SidebarTrigger />
 							{children}
 						</SidebarInset>
 					</SidebarProvider>

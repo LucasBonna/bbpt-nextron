@@ -17,10 +17,13 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	SidebarRail,
 	SidebarSeparator,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { NavUser } from './nav-user';
+import { authClient } from '@/lib/auth-client';
 
 interface AppSidebarProps {
 	chats: {
@@ -32,6 +35,7 @@ interface AppSidebarProps {
 export function AppSidebar({ chats }: AppSidebarProps) {
 	const pathname = usePathname();
 	const [searchQuery, setSearchQuery] = React.useState('');
+	const { data: userSession, isPending, error } = authClient.useSession();
 
 	const filteredChats = React.useMemo(() => {
 		if (!searchQuery.trim()) return chats;
@@ -42,6 +46,10 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 			)
 		);
 	}, [chats, searchQuery]);
+
+	if (isPending || error) {
+		return null;
+	}
 
 	return (
 		<Sidebar collapsible='icon'>
@@ -111,9 +119,10 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 					</SidebarGroupContent>
 				</SidebarGroup>
 			</SidebarContent>
-
 			<SidebarFooter>
+				<NavUser user={userSession.user} />
 			</SidebarFooter>
+			<SidebarRail />
 		</Sidebar>
 	);
 }
