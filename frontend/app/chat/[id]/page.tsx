@@ -12,6 +12,7 @@ import { MessageContent } from "@/components/(chat)/message-content"
 import { Client, ClienteSelector } from "@/components/client-selector"
 import { authClient } from "@/lib/auth-client"
 
+
 interface Interaction {
   id: number
   prompt: string
@@ -124,10 +125,11 @@ export default function ChatPage() {
                 )}
               </div>
             ))
+            
           ) : (
-            <div className="text-center text-[33px] text-gray-500 my-70">
-              <p>Olá, {userSession.user.name}</p>
-            </div>
+              <div className="text-center text-[33px] text-gray-500 my-70">
+                <span className="bg-gradient-to-r from-[#00BC5F] to-[#03944C] bg-clip-text text-transparent font-medium select-none">Olá, {userSession.user.name}</span>
+              </div>
           )}
 
           <div ref={messagesEndRef} />

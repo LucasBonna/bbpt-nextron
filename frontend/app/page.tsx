@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Logo from "@/assets/BBPT.png";
 import Image from "next/image";
 import SignInSocial from '@/components/(auth)/sign-in-social'
-import { useSession } from "@/lib/auth-client";
 
 export default function LoginForm({
   className,
