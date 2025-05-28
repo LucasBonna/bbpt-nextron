@@ -22,7 +22,7 @@ model Chat {
 
 model Interaction {
   id           Int      @id @default(autoincrement())
-  chat         Chat     @relation(fields: [chatId], references: [id])
+  chat         Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId       String
   prompt       String
   response     String?

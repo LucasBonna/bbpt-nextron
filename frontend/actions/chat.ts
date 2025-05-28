@@ -39,18 +39,48 @@ export async function getChatWithInteractions(chatId: string) {
 	}
 }
 
-export async function createChat(id: string) {
+export async function deleteteChat(id: string) {
+	try {
+		return await prisma.chat.delete({
+			where: {
+				id
+			},
+		});
+	} catch (error) {
+		console.error('Error deleting chat:', error);
+		throw error;
+	}
+}
+
+export async function renameChat(id: string, name: string) {
+	try {
+		return await prisma.chat.update({
+			where: {
+				id
+			},
+			data: {
+				name
+			},
+		});
+	} catch (error) {
+		console.error('Error renaming chat:', error);
+		throw error;
+	}
+}
+
+export async function createChat(id: string, name: string) {
 	try {
 		const chat = await prisma.chat.create({
 			data: {
-				id: id,
+				id,
+				name
 			},
 		});
 
 		return chat;
 	} catch (error) {
 		console.error('Error creating chat:', error);
-		return null;
+		throw error;
 	}
 }
 
@@ -68,8 +98,10 @@ export async function sendMessage(chatId: string, prompt: string, client: Client
 			},
 		});
 
+		const chatName = `${client.name} - ${prompt.substring(0, 15)}...`
+
 		if (!chat) {
-			chat = { ...(await createChat(chatId)), interactions: [] };
+			chat = { ...(await createChat(chatId, chatName)), interactions: [] };
 		}
 
 		const chatHistory: MessageParam[] = [];
