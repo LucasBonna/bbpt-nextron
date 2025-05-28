@@ -108,6 +108,17 @@ export async function sendMessage(chatId: string, prompt: string, client: Client
 		return interaction;
 	} catch (error) {
 		console.error('Error sending message:', error);
+		const mockedErrorResponse = `Ocorreu um erro ao enviar sua mensagem,
+		 por favor tente novamente`;
+		await prisma.interaction.create({
+			data: {
+				prompt: prompt,
+				response: mockedErrorResponse,
+				responseTime: null,
+				model: 'claude-3-5-sonnet-latest',
+				chatId: chatId,
+			},
+		});
 		throw error;
 	}
 }

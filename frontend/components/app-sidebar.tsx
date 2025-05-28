@@ -74,7 +74,7 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 				<SidebarGroup>
 					<SidebarGroupContent>
 						<Button variant="ghost" size="default" asChild>
-							<Link href="/chat/new" className="-ml-2">
+							<Link href={`/chat/${crypto.randomUUID()}`} className="-ml-2">
 								<CirclePlus className="size-6 text-[#00BC5F]" />
 								<span className="text-[#00BC5F] -ml-1">Nova conversa</span>
 							</Link>

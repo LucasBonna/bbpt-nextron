@@ -81,6 +81,9 @@ export default function ChatPage() {
       console.error("Error sending message:", error)
     } finally {
       setSending(false)
+      const updatedChat = await getChatWithInteractions(params.id)
+      setChat(updatedChat)
+      inputRef.current?.focus()
     }
   }
 
