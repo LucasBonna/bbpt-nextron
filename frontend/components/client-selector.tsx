@@ -39,7 +39,7 @@ export function ClienteSelector({
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<button
-						className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-green-500 outline-none hover:bg-green-500/10 focus:ring-2 focus:ring-green-500/20"
+						className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-[#00BC5F] outline-none hover:bg-green-800/10 select-none"
 						aria-label="Selecionar cliente"
 					>
 						<User2 className="h-4 w-4" />
