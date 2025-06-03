@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Check, ChevronDown, User2 } from 'lucide-react';
+import { Check, ChevronDown, UserRoundSearch } from 'lucide-react';
 
 import {
 	DropdownMenu,
@@ -42,7 +42,7 @@ export function ClienteSelector({
 						className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-[#00BC5F] outline-none hover:bg-green-800/10 select-none"
 						aria-label="Selecionar cliente"
 					>
-						<User2 className="h-4 w-4" />
+						<UserRoundSearch className="h-4 w-4" />
 						<span>
 							{selectedClient
 								? selectedClient.name
