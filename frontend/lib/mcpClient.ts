@@ -103,7 +103,6 @@ export class MCPClient {
     if (clientSelected) {
       const resourceUri = `resource://${clientSelected.name.toLowerCase()}`;
       try {
-        console.log(`Reading resource ${resourceUri}`);
         const resource = await this.mcp.readResource({ uri: resourceUri });
         if (resource && resource.contents && resource.contents.length > 0) {
           messages.unshift({
