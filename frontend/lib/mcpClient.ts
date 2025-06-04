@@ -12,6 +12,7 @@ export class MCPClient {
   public transport: SSEClientTransport;
   private tools: Tool[] = [];
   private isConnected: boolean = false;
+  private resources: any[] = [];
 
   constructor() {
     this.anthropic = new Anthropic({
@@ -49,8 +50,12 @@ export class MCPClient {
       };
     });
 
+    const resourcesResult = await this.mcp.listResources();
+    this.resources = resourcesResult.resources;
+
     this.isConnected = true;
     console.log("Connected to MCP server with tools:", this.tools);
+    console.log("Fetched resources:", this.resources);
   }
 
   async processMessage(prompt: string, clientSelected: ClientSelected | null, chatHistory: MessageParam[] = []) {
@@ -61,7 +66,7 @@ export class MCPClient {
       Você deve responder as perguntas do usuario de forma clara e objetiva.
       Você deve usar as ferramentas disponiveis para responder as perguntas do usuario.
       Sua funcao e responder as perguntas do usuario relacionadas a como funciona o sistema de cada cliente e usar as 
-      ferramentas disponiveis para responder as perguntas do usuario.
+      ferramentas disponiveis, ou os resources para responder as perguntas do usuario.
       O usuario pode perguntar sobre o sistema de cada cliente, sobre as ferramentas disponiveis e sobre o sistema em geral.
 
       ${clientSelected ? `O cliente atual e o ${clientSelected.name},` : 'Nenhum cliente selecionado.'}
@@ -75,6 +80,55 @@ export class MCPClient {
         content: prompt,
       },
     ];
+
+    if (clientSelected) {
+      const resourceUri = `resource://${clientSelected.name.toLowerCase()}`;
+      try {
+        console.log(`Reading resource ${resourceUri}`);
+        const resource = await this.mcp.readResource({ uri: resourceUri });
+        if (resource && resource.contents && resource.contents.length > 0) {
+          messages.unshift({
+            role: "user",
+            content: [{
+              type: "tool_result",
+              tool_use_id: "client_resource_context",
+              content: resource.contents[0].text as string || "",
+            }],
+          });
+           messages.unshift({
+            role: "assistant",
+            content: [{
+              type: "tool_use",
+              name: "readResource",
+              input: { uri: resourceUri },
+              id: "client_resource_context"
+            }],
+          });
+          console.log(`Added resource ${resourceUri} content to messages.`);
+        } else {
+          console.log(`Resource ${resourceUri} found but has no content or invalid format.`);
+        }
+      } catch (error) {
+        console.error(`Failed to read resource ${resourceUri}:`, error);
+         messages.unshift({
+            role: "user",
+            content: [{
+              type: "tool_result",
+              tool_use_id: "client_resource_context",
+              content: `Error: Failed to load resource ${resourceUri}.` as string,
+            }],
+          });
+           messages.unshift({
+            role: "assistant",
+            content: [{
+              type: "tool_use",
+              name: "readResource",
+              input: { uri: resourceUri },
+              id: "client_resource_context"
+            }],
+          });
+      }
+    }
 
     const response = await this.anthropic.messages.create({
       model: "claude-3-5-sonnet-latest",
