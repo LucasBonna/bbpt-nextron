@@ -30,7 +30,26 @@ export class MCPClient {
     );
 
     this.transport = new SSEClientTransport(
-      new URL(process.env.MCP_SERVER_URL || "http://localhost:8000/connection")
+      new URL(process.env.MCP_SERVER_URL || "http://localhost:8000/connection"),
+      {
+        eventSourceInit: {
+          fetch: (url, init) => {
+            const modifiedInit = {
+              ...init,
+              headers: {
+                ...init.headers,
+                'Authorization': `Bearer ${process.env.MCP_API_KEY}`,
+              }
+            };
+            return fetch(url, modifiedInit);
+          }
+        },
+        requestInit: {
+          headers: {
+            'Authorization': `Bearer ${process.env.MCP_API_KEY}`,
+          }
+        }
+      }
     );
   }
 
