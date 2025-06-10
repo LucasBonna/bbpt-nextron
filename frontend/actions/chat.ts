@@ -12,7 +12,7 @@ export async function getBasicChatInfo() {
 			include: {
 				interactions: false,
 			},
-			orderBy: { id: 'asc' },
+			orderBy: { createdAt: 'desc' },
 		});
 		if (!chats) {
 			return [];
