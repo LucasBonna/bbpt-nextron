@@ -10,6 +10,7 @@ import { Loader2, Send } from "lucide-react"
 import { MessageContent } from "@/components/(chat)/message-content"
 import { type Client, ClienteSelector } from "@/components/client-selector"
 import { authClient } from "@/lib/auth-client"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface Interaction {
   id: number
@@ -133,20 +134,32 @@ export default function ChatPage() {
                     key={interaction.id}
                     className={`space-y-4 ${isLast ? "animate-slide-in-message" : ""}`}
                   >
-                    <div className="flex items-end justify-end">
-                      <div className="bg-secondary rounded-lg p-3 max-w-[80%]">
+                    <div className="flex items-start justify-end gap-2">
+                      <div className="bg-[#3B3B3B] rounded-lg border border-[#8E8E8E] p-3 max-w-[80%]">
                         <p className="text-secondary-foreground">{interaction.prompt}</p>
                       </div>
+                      <Avatar className="h-9 w-9 rounded-lg">
+                        <AvatarImage src={userSession?.user?.image} alt={userSession?.user?.name} />
+                        <AvatarFallback className="rounded-lg">
+                          {userSession?.user?.name?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
                     </div>
 
                     {interaction.response ? (
-                      <div className="flex items-start justify-start">
-                        <div className="bg-accent rounded-lg p-3 max-w-[80%] whitespace-pre-wrap">
+                      <div className="flex items-start justify-start gap-2">
+                        <Avatar className="h-9 w-9 rounded-lg bg-[#00BC5F]/10">
+                          <AvatarFallback className="rounded-lg text-[#00BC5F]">BBP</AvatarFallback>
+                        </Avatar>
+                        <div className="bg-transparent rounded-lg p-3 max-w-[80%] whitespace-pre-wrap">
                           <MessageContent content={interaction.response} />
                         </div>
                       </div>
                     ) : (
-                      <div className="flex items-start justify-start">
+                      <div className="flex items-start justify-start gap-2">
+                        <Avatar className="h-9 w-9 rounded-lg bg-[#00BC5F]/10">
+                          <AvatarFallback className="rounded-lg text-[#00BC5F]">BBP</AvatarFallback>
+                        </Avatar>
                         <div className="bg-card rounded-lg p-3">
                           <Loader2 className="h-4 w-4 animate-spin text-card-foreground" />
                         </div>

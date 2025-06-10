@@ -53,7 +53,7 @@ useEffect(() => {
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-center gap-2">
             <a href="#" className="flex flex-col items-center gap-2 font-medium">
-              <div className="flex h-10 w-10 items-center justify-center rounded-md">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md select-none">
                 <Image src={Logo} alt="Logo BBPT" width={60} height={60} />
               </div>
             </a>
