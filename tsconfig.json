@@ -1,14 +1,11 @@
 {
-    "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-        "@/*": ["frontend/*"],
-        "@/components/*": ["frontend/components/*"]
-      }
-    },
-    "exclude": ["node_modules"],
-    "references": [
-      { "path": "./frontend" },
-    ]
-  }
-  
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["frontend/*"],
+			"@/components/*": ["frontend/components/*"]
+		}
+	},
+	"exclude": ["node_modules"],
+	"references": [{ "path": "./frontend" }]
+}

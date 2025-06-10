@@ -43,7 +43,7 @@ export async function deleteteChat(id: string) {
 	try {
 		return await prisma.chat.delete({
 			where: {
-				id
+				id,
 			},
 		});
 	} catch (error) {
@@ -56,10 +56,10 @@ export async function renameChat(id: string, name: string) {
 	try {
 		return await prisma.chat.update({
 			where: {
-				id
+				id,
 			},
 			data: {
-				name
+				name,
 			},
 		});
 	} catch (error) {
@@ -73,7 +73,7 @@ export async function createChat(id: string, name: string) {
 		const chat = await prisma.chat.create({
 			data: {
 				id,
-				name
+				name,
 			},
 		});
 
@@ -84,7 +84,11 @@ export async function createChat(id: string, name: string) {
 	}
 }
 
-export async function sendMessage(chatId: string, prompt: string, client: Client | null) {
+export async function sendMessage(
+	chatId: string,
+	prompt: string,
+	client: Client | null
+) {
 	try {
 		const mcpClient = getMCPClient();
 
@@ -98,7 +102,7 @@ export async function sendMessage(chatId: string, prompt: string, client: Client
 			},
 		});
 
-		const chatName = `${client.name} - ${prompt.substring(0, 15)}...`
+		const chatName = `${client.name} - ${prompt.substring(0, 15)}...`;
 
 		if (!chat) {
 			chat = { ...(await createChat(chatId, chatName)), interactions: [] };

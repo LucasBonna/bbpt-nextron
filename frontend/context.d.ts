@@ -3,12 +3,12 @@
  *********************************************************************/
 
 export interface IBloopAPI {
-	foo: string
-	ping: () => Promise<string>
+	foo: string;
+	ping: () => Promise<string>;
 }
 
 declare global {
 	interface Window {
-		BloopAPI: IBloopAPI
+		BloopAPI: IBloopAPI;
 	}
 }

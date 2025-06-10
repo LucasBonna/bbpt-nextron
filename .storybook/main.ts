@@ -1,6 +1,6 @@
-import type { StorybookConfig } from '@storybook/nextjs'
-import path from 'path'
-import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin'
+import type { StorybookConfig } from '@storybook/nextjs';
+import path from 'path';
+import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 
 const config: StorybookConfig = {
 	stories: [
@@ -23,15 +23,15 @@ const config: StorybookConfig = {
 	},
 
 	webpackFinal: config => {
-		config.resolve ??= {}
-		config.resolve.plugins ??= []
+		config.resolve ??= {};
+		config.resolve.plugins ??= [];
 		config.resolve.plugins.push(
 			new TsconfigPathsPlugin({
 				configFile: path.resolve(__dirname, '../frontend/tsconfig.json'),
 			})
-		)
+		);
 
-		return config
+		return config;
 	},
 
 	docs: {},
@@ -41,5 +41,5 @@ const config: StorybookConfig = {
 	typescript: {
 		reactDocgen: 'react-docgen-typescript',
 	},
-}
-export default config
+};
+export default config;

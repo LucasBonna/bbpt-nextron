@@ -15,9 +15,9 @@ The template comes with [SVGR](https://react-svgr.com/) installed and pre-config
 > You can use the `<Image />` component along with static file imports for images like this example.
 
 ```tsx
-import Menhera from '@/assets/path/to/menhera.png'
+import Menhera from '@/assets/path/to/menhera.png';
 
 export function MenheraComponent() {
-	return <Image src={Menhera.src} height={200} width={200} alt="menhera" />
+	return <Image src={Menhera.src} height={200} width={200} alt="menhera" />;
 }
 ```

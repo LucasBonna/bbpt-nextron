@@ -26,8 +26,12 @@ const clientes: Client[] = [
 
 export function ClienteSelector({
 	onSelectClient,
-}: { onSelectClient: (client: Client) => void }) {
-	const [selectedClient, setSelectedClient] = React.useState<Client | null>(null);
+}: {
+	onSelectClient: (client: Client) => void;
+}) {
+	const [selectedClient, setSelectedClient] = React.useState<Client | null>(
+		null
+	);
 
 	const handleSelectClient = (client: Client) => {
 		setSelectedClient(client);
@@ -44,9 +48,7 @@ export function ClienteSelector({
 					>
 						<UserRoundSearch className="h-4 w-4" />
 						<span>
-							{selectedClient
-								? selectedClient.name
-								: 'Selecionar o cliente'}
+							{selectedClient ? selectedClient.name : 'Selecionar o cliente'}
 						</span>
 						<ChevronDown className="h-4 w-4" />
 					</button>
@@ -57,8 +59,7 @@ export function ClienteSelector({
 							key={cliente.id}
 							className={cn(
 								'flex cursor-pointer items-center justify-between',
-								selectedClient?.id === cliente.id &&
-									'bg-green-500/10'
+								selectedClient?.id === cliente.id && 'bg-green-500/10'
 							)}
 							onClick={() => handleSelectClient(cliente)}
 						>
