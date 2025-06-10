@@ -91,7 +91,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={async() => authClient.signOut()}>
               <LogOut/>
-              Log out
+              Sair
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

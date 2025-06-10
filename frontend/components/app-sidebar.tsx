@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { MessageSquare, CirclePlus, Search, Edit3, Trash2, MoreHorizontal } from 'lucide-react';
+import {CirclePlus, Search, Edit3, Trash2, MoreHorizontal, MessageSquareText } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -72,10 +72,10 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 			router.push(`/chat/${crypto.randomUUID()}`)
 		  }
 	
-		  toast.success("Chat deleted successfully")
+		  toast.success("Conversa excluída com sucesso")
 		} catch (error) {
-		  console.error("Error deleting chat:", error)
-		  toast.error("Failed to delete chat")
+		  console.error("Erro ao excluir a conversa:", error)
+		  toast.error("Falha ao excluir a conversa")
 		} finally {
 		  setIsDeleting(false)
 		  setDeleteDialogOpen(false)
@@ -89,10 +89,10 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 		setIsRenaming(true)
 		try {
 		  await renameChat(selectedChatId, newChatName.trim())
-		  toast.success("Chat renamed successfully")
+		  toast.success("Nome da conversa alterado com sucesso")
 		} catch (error) {
-		  console.error("Error renaming chat:", error)
-		  toast.error("Failed to rename chat")
+		  console.error("Erro ao alterar o nome da conversa:", error)
+		  toast.error("Falha ao alterar o nome da conversa")
 		} finally {
 		  setIsRenaming(false)
 		  setRenameDialogOpen(false)
@@ -148,14 +148,17 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 			<SidebarContent>
 			  <SidebarGroup>
 				<SidebarGroupContent>
-				  <Button variant="ghost" size="default" asChild>
-					<Link href={`/chat/${crypto.randomUUID()}`} className="-ml-2">
-					  <CirclePlus className="size-6 text-[#00BC5F]" />
-					  <span className="text-[#00BC5F] -ml-1">Nova conversa</span>
+				  <div className="w-full">
+					<Link 
+					  href={`/chat/${crypto.randomUUID()}`} 
+					  className="inline-flex items-center gap-2 px-2 py-1.5 rounded-md transition-all duration-200 hover:bg-green-800/10 select-none"
+					>
+					  <CirclePlus className="size-5 text-[#00BC5F]" />
+					  <span className="text-[#00BC5F] font-semibold">Nova conversa</span>
 					</Link>
-				  </Button>
+				  </div>
+				  <br />
 				</SidebarGroupContent>
-				<br />
 				<SidebarGroupLabel>Conversas recentes</SidebarGroupLabel>
 				<SidebarGroupContent>
 				  <SidebarMenu>
@@ -164,7 +167,7 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 						<SidebarMenuItem key={chat.id}>
 						  <SidebarMenuButton asChild isActive={pathname === `/chat/${chat.id}`} tooltip={chat.id}>
 							<Link href={`/chat/${chat.id}`}>
-							  <MessageSquare className="h-4 w-4 shrink-0" />
+							  <MessageSquareText className="h-4 w-4 shrink-0" />
 							  <span>{chat.name || `Chat ${chat.id.substring(0, 8)}...`}</span>
 							</Link>
 						  </SidebarMenuButton>
@@ -178,14 +181,15 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 							<DropdownMenuContent className="w-48" side="right" align="start">
 							  <DropdownMenuItem onClick={() => openRenameDialog(chat.id, chat.name)}>
 								<Edit3 className="h-4 w-4" />
-								<span>Rename</span>
+								<span>Renomear</span>
 							  </DropdownMenuItem>
 							  <DropdownMenuItem
 								onClick={() => openDeleteDialog(chat.id)}
-								className="text-destructive focus:text-destructive"
+								variant="destructive"
+								className="hover:bg-destructive/10"
 							  >
-								<Trash2 className="h-4 w-4" />
-								<span>Delete</span>
+								<Trash2 className="h-4 w-4 text-red-500" />
+								<span className="text-red-400">Excluir</span>
 							  </DropdownMenuItem>
 							</DropdownMenuContent>
 						  </DropdownMenu>
@@ -209,9 +213,9 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 		  <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
 			<AlertDialogContent>
 			  <AlertDialogHeader>
-				<AlertDialogTitle>Are you sure?</AlertDialogTitle>
+				<AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
 				<AlertDialogDescription>
-				  This action cannot be undone. This will permanently delete the chat and all its messages.
+				  Esta ação não pode ser revertida. Isso irá excluir a conversa e todas as suas mensagens.
 				</AlertDialogDescription>
 			  </AlertDialogHeader>
 			  <AlertDialogFooter>
@@ -219,9 +223,9 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 				<AlertDialogAction
 				  onClick={handleDeleteChat}
 				  disabled={isDeleting}
-				  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+				  className="bg-destructive text-destructive-foreground hover:bg-destructive/90 bg-[#E02E2A] hover:bg-[#E02E2A]/80 text-white"
 				>
-				  {isDeleting ? "Deleting..." : "Delete"}
+				  {isDeleting ? "Excluindo..." : "Excluir"}
 				</AlertDialogAction>
 			  </AlertDialogFooter>
 			</AlertDialogContent>
@@ -231,20 +235,20 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 		  <Dialog open={renameDialogOpen} onOpenChange={setRenameDialogOpen}>
 			<DialogContent className="sm:max-w-[425px]">
 			  <DialogHeader>
-				<DialogTitle>Rename Chat</DialogTitle>
-				<DialogDescription>Enter a new name for this chat conversation.</DialogDescription>
+				<DialogTitle>Renomear conversa</DialogTitle>
+				<DialogDescription>Digite um novo nome para esta conversa.</DialogDescription>
 			  </DialogHeader>
-			  <div className="grid gap-4 py-4">
-				<div className="grid grid-cols-4 items-center gap-4">
-				  <Label htmlFor="name" className="text-right">
-					Name
+			  <div className="grid gap-1 py-4">
+				<div className="grid grid-cols-4 items-center">
+				  <Label htmlFor="name" className="text-right invisible">
+					Nome
 				  </Label>
 				  <Input
 					id="name"
 					value={newChatName}
 					onChange={(e) => setNewChatName(e.target.value)}
-					className="col-span-3"
-					placeholder="Enter chat name..."
+					className="col-span-4"
+					placeholder="Digite o nome da conversa..."
 					onKeyDown={(e) => {
 					  if (e.key === "Enter") {
 						handleRenameChat()
@@ -255,10 +259,10 @@ export function AppSidebar({ chats }: AppSidebarProps) {
 			  </div>
 			  <DialogFooter>
 				<Button type="button" variant="outline" onClick={() => setRenameDialogOpen(false)}>
-				  Cancel
+				  Cancelar
 				</Button>
-				<Button type="button" onClick={handleRenameChat} disabled={isRenaming || !newChatName.trim()}>
-				  {isRenaming ? "Renaming..." : "Rename"}
+				<Button className="bg-[#00BC5F] hover:bg-[#00BC5F]/90 text-white" type="button" onClick={handleRenameChat} disabled={isRenaming || !newChatName.trim()}>
+				  {isRenaming ? "Alterando..." : "Renomear"}
 				</Button>
 			  </DialogFooter>
 			</DialogContent>
