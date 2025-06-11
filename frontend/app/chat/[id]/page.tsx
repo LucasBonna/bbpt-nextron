@@ -142,7 +142,7 @@ export default function ChatPage() {
 									>
 										<div className="flex items-start justify-end gap-2">
 											<div className="bg-[#3B3B3B] rounded-lg border border-[#8E8E8E] p-3 max-w-[80%] text-sm">
-												<div className="flex items-center gap-2">
+												<div className="flex items-start gap-2">
 													<p className="text-secondary-foreground flex-1">
 														{interaction.prompt}
 													</p>
@@ -162,7 +162,7 @@ export default function ChatPage() {
 										{interaction.response ? (
 											<div className="flex items-start justify-start gap-2">
 												<div className="bg-transparent rounded-lg p-3 max-w-[80%] whitespace-pre-wrap">
-													<div className="flex items-center gap-2 text-sm">
+													<div className="flex items-start gap-2 text-sm">
 														<Avatar className="h-9 w-9 rounded-xl bg-[#00BC5F]/10 flex-shrink-0 right-2">
 															<AvatarFallback className="rounded-xl text-[#00BC5F]">
 																BBP
