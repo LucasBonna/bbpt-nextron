@@ -91,6 +91,8 @@ export class MCPClient {
       Sua funcao e responder as perguntas do usuario relacionadas a como funciona o sistema de cada cliente e usar as 
       ferramentas disponiveis, ou os resources para responder as perguntas do usuario.
       O usuario pode perguntar sobre o sistema de cada cliente, sobre as ferramentas disponiveis e sobre o sistema em geral.
+	  Só responda o que o usuario pediu, não adicione nada além do que o usuario pediu.
+	  Não invente informações, apenas use as ferramentas disponiveis e os resources para responder as perguntas do usuario.
 
       ${clientSelected ? `O cliente atual e o ${clientSelected.name},` : 'Nenhum cliente selecionado.'}
       ${clientSelected ? `O clientId atual e ${clientSelected.id}` : 'Nenhum clientId disponivel.'}
