@@ -141,42 +141,48 @@ export default function ChatPage() {
 										className={`space-y-4 ${isLast ? 'animate-slide-in-message' : ''}`}
 									>
 										<div className="flex items-start justify-end gap-2">
-											<div className="bg-[#3B3B3B] rounded-lg border border-[#8E8E8E] p-3 max-w-[80%]">
-												<p className="text-secondary-foreground">
-													{interaction.prompt}
-												</p>
+											<div className="bg-[#3B3B3B] rounded-lg border border-[#8E8E8E] p-3 max-w-[80%] text-sm">
+												<div className="flex items-center gap-2">
+													<p className="text-secondary-foreground flex-1">
+														{interaction.prompt}
+													</p>
+													<Avatar className="h-9 w-9 rounded-xl flex-shrink-0 left-2">
+														<AvatarImage
+															src={userSession?.user?.image}
+															alt={userSession?.user?.name}
+														/>
+														<AvatarFallback className="rounded-full">
+															{userSession?.user?.name?.charAt(0).toUpperCase()}
+														</AvatarFallback>
+													</Avatar>
+												</div>
 											</div>
-											<Avatar className="h-9 w-9 rounded-lg">
-												<AvatarImage
-													src={userSession?.user?.image}
-													alt={userSession?.user?.name}
-												/>
-												<AvatarFallback className="rounded-lg">
-													{userSession?.user?.name?.charAt(0).toUpperCase()}
-												</AvatarFallback>
-											</Avatar>
 										</div>
 
 										{interaction.response ? (
 											<div className="flex items-start justify-start gap-2">
-												<Avatar className="h-9 w-9 rounded-lg bg-[#00BC5F]/10">
-													<AvatarFallback className="rounded-lg text-[#00BC5F]">
-														BBP
-													</AvatarFallback>
-												</Avatar>
 												<div className="bg-transparent rounded-lg p-3 max-w-[80%] whitespace-pre-wrap">
-													<MessageContent content={interaction.response} />
+													<div className="flex items-center gap-2 text-sm">
+														<Avatar className="h-9 w-9 rounded-xl bg-[#00BC5F]/10 flex-shrink-0 right-2">
+															<AvatarFallback className="rounded-xl text-[#00BC5F]">
+																BBP
+															</AvatarFallback>
+														</Avatar>
+														<MessageContent content={interaction.response} />
+													</div>
 												</div>
 											</div>
 										) : (
 											<div className="flex items-start justify-start gap-2">
-												<Avatar className="h-9 w-9 rounded-lg bg-[#00BC5F]/10">
-													<AvatarFallback className="rounded-lg text-[#00BC5F]">
-														BBP
-													</AvatarFallback>
-												</Avatar>
 												<div className="bg-card rounded-lg p-3">
-													<Loader2 className="h-4 w-4 animate-spin text-card-foreground" />
+													<div className="flex items-center gap-2">
+														<Avatar className="h-9 w-9 rounded-xl bg-[#00BC5F]/10 flex-shrink-0">
+															<AvatarFallback className="rounded-xl text-[#00BC5F]">
+																BBP
+															</AvatarFallback>
+														</Avatar>
+														<Loader2 className="h-4 w-4 animate-spin text-card-foreground" />
+													</div>
 												</div>
 											</div>
 										)}
