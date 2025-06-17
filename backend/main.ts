@@ -6,11 +6,13 @@ import electronIsDev from 'electron-is-dev';
 import ElectronStore from 'electron-store';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { spawn } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const { autoUpdater } = electronUpdater;
 let appWindow: BrowserWindow | null = null;
+let nextProcess: ReturnType<typeof spawn> | null = null;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const store = new ElectronStore();
 
@@ -64,9 +66,7 @@ const spawnAppWindow = async () => {
 	});
 
 	appWindow.loadURL(
-		electronIsDev
-			? 'http://localhost:3000'
-			: `file://${path.join(__dirname, '../../frontend/build/index.html')}`
+		electronIsDev ? 'http://localhost:3000' : 'http://localhost:3000'
 	);
 	appWindow.maximize();
 	appWindow.setMenu(null);
@@ -80,11 +80,26 @@ const spawnAppWindow = async () => {
 };
 
 app.on('ready', () => {
-	new AppUpdater();
-	spawnAppWindow();
+	// Inicia o servidor Next.js em produção
+	nextProcess = spawn(
+		process.platform === 'win32' ? 'yarn.cmd' : 'yarn',
+		['frontend:dev'],
+		{
+			cwd: path.join(__dirname, '../../frontend'),
+			stdio: 'inherit',
+			shell: true,
+		}
+	);
+
+	// Aguarda o Next.js subir antes de abrir a janela (ajuste o tempo se necessário)
+	setTimeout(() => {
+		new AppUpdater();
+		spawnAppWindow();
+	}, 5000);
 });
 
 app.on('window-all-closed', () => {
+	if (nextProcess) nextProcess.kill();
 	if (process.platform !== 'darwin') {
 		app.quit();
 	}

@@ -216,17 +216,23 @@ export class MCPClient {
 					],
 				});
 
+				console.log('messages', messages);
+
 				const continueResponse = await this.anthropic.messages.create({
 					model: 'claude-3-5-sonnet-latest',
-					max_tokens: 1000,
+					max_tokens: 4000,
 					messages,
 				});
 
-				finalText.push(
+				if (
+					continueResponse.content &&
+					continueResponse.content.length > 0 &&
 					continueResponse.content[0].type === 'text'
-						? continueResponse.content[0].text
-						: ''
-				);
+				) {
+					finalText.push(continueResponse.content[0].text);
+				} else {
+					finalText.push('');
+				}
 			}
 		}
 
