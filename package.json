@@ -28,7 +28,7 @@
 	},
 	"packageManager": "yarn@4.2.2",
 	"dependencies": {
-		"@anthropic-ai/sdk": "^0.51.0",
+		"@anthropic-ai/sdk": "^0.55.1",
 		"@modelcontextprotocol/sdk": "^1.11.4",
 		"@prisma/client": "^6.8.2",
 		"@radix-ui/react-alert-dialog": "^1.1.14",
