@@ -36,12 +36,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@anthropic-ai/sdk@npm:^0.51.0":
-  version: 0.51.0
-  resolution: "@anthropic-ai/sdk@npm:0.51.0"
+"@anthropic-ai/sdk@npm:^0.57.0":
+  version: 0.57.0
+  resolution: "@anthropic-ai/sdk@npm:0.57.0"
   bin:
     anthropic-ai-sdk: bin/cli
-  checksum: 10c0/eb68ad2e77c49477c6e9c883e8ad1bff758fc7f5fcd646878a5dd9b7f4b89de7d11fad8ea81480eee483b7c0563f564ff9b8b82f5e1550e1f3b5321761e241fe
+  checksum: 10c0/e31c95ee01655fa4874b17ef3af0c3caade86628322abc4e1c370f2689d29a2a884ef2b059b7cd22d8a4e701f32a62757198fb311d69c8e6cef36628549356eb
   languageName: node
   linkType: hard
 
@@ -11707,7 +11707,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nextjs-electron-boilerplate@workspace:."
   dependencies:
-    "@anthropic-ai/sdk": "npm:^0.51.0"
+    "@anthropic-ai/sdk": "npm:^0.57.0"
     "@chromatic-com/storybook": "npm:1"
     "@modelcontextprotocol/sdk": "npm:^1.11.4"
     "@prisma/client": "npm:^6.8.2"
